@@ -1,78 +1,55 @@
-# Plaka Kodu Şehir Bulma Programı
+# Fikstür Oluşturucu
 
-Bu C programı, kullanıcının girdiği plaka koduna karşılık gelen şehri bir metin dosyasından okuyarak ekrana yazdırır. Ayrıca, belirli plaka kodlarının Doğu Karadeniz Bölgesi'nde yer aldığını belirtir ve geçersiz plaka kodu girişlerini kontrol eder.
-
-## İçindekiler
-
-* Açıklama
-* Gereksinimler
-* Derleme ve Çalıştırma
-* Dosya Yapısı
-* Kullanım
-* Örnekler
-* Notlar
-
-## Açıklama
-
-Program, kullanıcının konsol üzerinden girdiği plaka numarasını alır. Daha sonra, belirtilen bir metin dosyasından (plaka.txt.txt) ilgili satırı okuyarak ekrana yazdırır. Ayrıca, program, belirli plaka numaralarının Doğu Karadeniz Bölgesi'nde yer aldığını kontrol eder ve geçersiz plaka numaralarını algılar.
+Bu C programı, bir takım listesinden rastgele bir haftalık fikstür oluşturur. Program, belirli bir takımı o hafta maç yapmayacak şekilde ayırarak diğer takımları rastgele eşleştirir.
 
 ## Gereksinimler
 
 * C derleyicisi (örneğin, GCC)
-* "plaka.txt.txt" adında bir metin dosyası. Bu dosya, her satırda bir plaka kodu ve karşılık gelen şehir bilgisini içermelidir.
-
-## Derleme ve Çalıştırma
-
-1.  **Metin dosyasını oluşturun:**
-    * "plaka.txt.txt" adında bir metin dosyası oluşturun.
-    * Her satıra bir plaka kodu ve şehir adını virgülle ayırarak ekleyin. Örneğin:
-        ```
-        01,Adana
-        02,Adıyaman
-        03,Afyonkarahisar
-        ...
-        81,Düzce
-        ```
-    * dosyayı C:\Users\demir\Desktop\C dili ile Sehir Plakalari\ dizinine kaydedin.
-2.  **C kodunu derleyin:**
-    * C kodunu bir C derleyicisi kullanarak derleyin. Örneğin, GCC ile:
-        ```bash
-        gcc plaka_bul.c -o plaka_bul
-        ```
-3.  **Programı çalıştırın:**
-    * Derlenen programı çalıştırın:
-        ```bash
-        ./plaka_bul
-        ```
+* "Team.txt" adlı bir metin dosyası (takım isimlerini içerir)
 
 ## Dosya Yapısı
 
-* `plaka_bul.c`: C kaynak kodu.
-* `plaka.txt.txt`: Plaka kodları ve şehir isimlerini içeren metin dosyası.
+* `main.c`: C kaynak kodu
+* `Team.txt`: Takım isimlerini içeren metin dosyası (her satırda bir takım)
+* `Fikstur.txt`: Oluşturulan fikstürün yazıldığı metin dosyası
 
-## Kullanım
+## Nasıl Çalıştırılır
 
-1.  Programı çalıştırın.
-2.  Konsolda "Please enter your license plate code" mesajını göreceksiniz.
-3.  Bir plaka kodu girin ve Enter'a basın.
-4.  Program, plaka koduna karşılık gelen şehri ekrana yazdıracaktır.
-5.  Eğer girilen plaka kodlarından 61, 8, 28, 29, 52, 53, veya 69 ise "Dogu Karadeniz Bolgesinde Yer Alir." mesajı ekrana yazdırılacaktır.
-6.  Eğer 81 den büyük bir plaka kodu girerseniz "Wrong code entered" mesajı ekrana yazdırılacaktır.
+1.  `Team.txt` dosyasını, her satırda bir takım ismi olacak şekilde oluşturun ve programın bulunduğu dizindeki `team` klasörüne kaydedin. Tam yol: `C:\\Users\\demir\\Desktop\\team\\Team.txt`
+2.  `main.c` dosyasını bir C derleyicisi ile derleyin. Örneğin, GCC kullanıyorsanız:
 
-## Örnekler
+    ```bash
+    gcc main.c -o fikstur
+    ```
 
-* **Giriş:** 34
-    * **Çıktı:** 34,İstanbul
-* **Giriş:** 61
-    * **Çıktı:** 61,Trabzon
-        Dogu Karadeniz Bolgesinde Yer Alir.
-* **Giriş:** 90
-    * **Çıktı:** Wrong code entered
+3.  Oluşturulan çalıştırılabilir dosyayı çalıştırın:
+
+    ```bash
+    fikstur
+    ```
+
+4.  Program, `Fikstur.txt` adlı bir dosya oluşturacak ve bu dosyaya haftalık fikstürü yazacaktır. Dosya yolu: `C:\\Users\\demir\\Desktop\\team\\Fikstur.txt`
+
+## Programın İşleyişi
+
+1.  Program, `Team.txt` dosyasını okur ve takım isimlerini bir diziye yükler.
+2.  Rastgele bir takım seçilir ve o hafta maç yapmayacak takım olarak belirlenir.
+3.  Diğer takımlar rastgele eşleştirilir ve `Fikstur.txt` dosyasına yazılır.
+4.  Maç yapmayacak takımın ismi, fikstür dosyasının en üstüne yazılır.
+5.  Takımların eşleşmeleri "vs" ile ayrılmış şekilde ve her maç eşleşmesi bir satırda olacak şekilde `Fikstur.txt` dosyasına yazılır.
+6.  Eğer `Team.txt` dosyası boş ise `Fikstur.txt` dosyasına "dosya bos" yazılır.
+7.  Eğer `Team.txt` dosyası açılamazsa veya `Fikstur.txt` dosyası yazılamazsa, hata mesajı görüntülenir.
+
+## Kod Yapısı
+
+* `MAX_LINE_LENGTH`: Bir satırın maksimum uzunluğu.
+* `MAX_LINES`: Takım sayısının maksimum değeri.
+* `rand_exclude(int min, int max, int exclude)`: Belirtilen aralıkta, belirtilen sayıyı hariç tutarak rastgele bir sayı üreten fonksiyon.
+* `main()`: Ana fonksiyon. Dosya okuma, rastgele eşleştirme ve dosya yazma işlemlerini gerçekleştirir.
 
 ## Notlar
 
-* Metin dosyasının yolu kod içinde sabit olarak belirtilmiştir. Dosya yolunu değiştirmek isterseniz, `fopen` fonksiyonundaki dosya yolunu güncelleyin.
-* Program, metin dosyasındaki satır numaralarını kullanarak plaka kodunu bulur. Bu nedenle, metin dosyasındaki satırların sırası önemlidir.
-* Program sadece 81'e kadar olan plaka kodlarını destekler.
-* Dosyanın dizin yolunun doğru olduğundan emin olun.
-* Plaka.txt.txt dosyası program ile aynı dizinde olmalıdır veya dosya yolunu belirtmelisiniz.
+* Program, 19 takımı destekleyecek şekilde yazılmıştır. Takım sayısını değiştirmek isterseniz, `d=rand()%19;` satırını ve `MAX_LINES` tanımını güncelleyin.
+* Takım sayısının tek sayı olması durumunda bir takım her hafta maç yapmayacaktır.
+* Dosya yolları, `Team.txt` ve `Fikstur.txt` dosyalarının bulunduğu konuma göre ayarlanmalıdır.
+* Program, temel bir fikstür oluşturma işlevi sunar. Daha gelişmiş özellikler (örneğin, lig tablosu, puan hesaplama) eklemek için kod üzerinde değişiklikler yapılması gerekmektedir.
